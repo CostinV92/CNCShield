@@ -1,1 +1,17 @@
-cnc_shield initial commit
+Lightweight library for the Arduino CNC Shield
+(https://blog.protoneer.co.nz/arduino-cnc-shield)
+
+A lightweight library for the Arduino CNC Shield wich allows you to control each motor individually, without the need to configure GRBL.
+
+How to use it:
+    1. Create the *CNCShield* object.
+    2. Call the *CNCSHield.begin()* method in the setup step.
+    3. Enable the shield by calling *CNCSHield.enable()*
+    4. Get a *StepperMotor* object using *CNCSHield.get_motor()*.
+        - motor_id 0 -> X axis
+        - motor_id 1 -> Y axis
+        - motor_id 2 -> Z axis
+        - (for now only X, Y and Z axis work)
+    5. Set the direction (*CLOCKWISE* or *COUNTER*) of the *StepperMotor* using *StepperMotor.set_dir()*.
+    6. Call *StepperMotor.step()* every time you want your stepper motor to make a step.
+    * for a working examples see examples.

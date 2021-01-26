@@ -1,0 +1,29 @@
+#######################################
+# Syntax Coloring Map For CNCShield
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+CNCShield	KEYWORD1
+StepperMotor	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+enable	KEYWORD2
+disable	KEYWORD2
+get_motor	KEYWORD2
+step	KEYWORD2
+get_dir	KEYWORD2
+set_dir	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+CLOCKWISE	LITERAL1
+COUNTER	LITERAL1
