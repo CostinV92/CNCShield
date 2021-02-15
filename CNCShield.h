@@ -10,8 +10,8 @@
 #define __CNCSHIELD_H__
 
 typedef enum {
-    CLOCKWISE = 0,
-    COUNTER
+    COUNTER = 0,
+    CLOCKWISE
 } direction_t;
 
 class CNCShield;
