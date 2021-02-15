@@ -42,6 +42,10 @@ void CNCShield::begin()
     for (int i = 0; i < 3; i++) {
         motors[i].init();
     }
+
+#ifdef DEBUG
+    Serial.begin(9600);
+#endif /* DEBUG */
 }
 
 void CNCShield::enable()
@@ -73,12 +77,13 @@ StepperMotor* CNCShield::get_motor(unsigned int motor_id)
 }
 
 StepperMotor::StepperMotor(int _stp_pin, int _dir_pin):
-    stp_pin(stp_pin), dir_pin(_dir_pin), dir(0) {}
+    stp_pin(stp_pin), dir_pin(_dir_pin) {}
 
 void StepperMotor::init()
 {
     pinMode(stp_pin, OUTPUT);
     pinMode(dir_pin, OUTPUT);
+
     was_init = true;
 }
 
@@ -107,6 +112,12 @@ void StepperMotor::set_dir_pin(int _dir_pin)
     dir_pin = _dir_pin;
 }
 
+void StepperMotor::_step()
+{
+    digitalWrite(stp_pin, HIGH);
+    digitalWrite(stp_pin, LOW);
+}
+
 bool StepperMotor::step()
 {
     if (!is_init()) {
@@ -116,14 +127,47 @@ bool StepperMotor::step()
         return false;
     }
 
-    digitalWrite(stp_pin, HIGH);
-    digitalWrite(stp_pin, LOW);
+    _step();
 
 #ifdef DEBUG
     Serial.println("StepperMotor::step(): stepped.");
 #endif /* DEBUG */
 
     return true;
+}
+
+bool StepperMotor::step(direction_t _dir)
+{
+    if (_dir != dir)
+        set_dir(_dir);
+
+    return step();
+}
+
+bool StepperMotor::step(int no_of_steps)
+{
+    if (!is_init())
+        return false;
+
+    if (speed == 0)
+        return false;
+
+#ifdef DEBUG
+    Serial.println("StepperMotor::step_n()");
+#endif /* DEBUG */
+
+    for (int i = 0; i < no_of_steps; i++) {
+        _step();
+        delay(delay_between_steps);
+    }
+}
+
+bool StepperMotor::step(int no_of_steps, direction_t _dir)
+{
+    if (_dir != dir)
+        set_dir(_dir);
+
+    return step(no_of_steps);
 }
 
 direction_t StepperMotor::get_dir()
@@ -146,6 +190,18 @@ void StepperMotor::set_dir(direction_t _dir)
         Serial.println(_dir);
 #endif /* DEBUG */
         dir = _dir;
+
         digitalWrite(dir_pin, dir);
     }
+}
+
+double StepperMotor::get_speed()
+{
+    return speed;
+}
+
+void StepperMotor::set_speed(double _speed)
+{
+    speed = _speed;
+    delay_between_steps = 1000 / _speed;
 }

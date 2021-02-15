@@ -18,7 +18,9 @@ class CNCShield;
 
 class StepperMotor {
 private:
-    int             dir = 0;
+    direction_t     dir = COUNTER;
+    int             speed = 0; /* steps per second */
+    double          delay_between_steps = 0; /* ms */
     int             stp_pin;
     int             dir_pin;
     bool            was_init = false;
@@ -34,11 +36,19 @@ private:
     int             get_dir_pin();
     void            set_dir_pin(int _dir_pin);
 
+    void            _step();
+
 public:
     bool            step();
+    bool            step(direction_t _dir);
+    bool            step(int no_of_steps);
+    bool            step(int no_of_steps, direction_t _dir);
 
     direction_t     get_dir();
     void            set_dir(direction_t _dir);
+
+    double          get_speed();
+    void            set_speed(double _speed);
 
     friend class CNCShield;
 };

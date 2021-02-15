@@ -18,6 +18,8 @@ enable	KEYWORD2
 disable	KEYWORD2
 get_motor	KEYWORD2
 step	KEYWORD2
+get_speed	KEYWORD2
+set_speed	KEYWORD2
 get_dir	KEYWORD2
 set_dir	KEYWORD2
 
