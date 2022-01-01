@@ -68,8 +68,6 @@ void CNCShield::disable()
 
 StepperMotor* CNCShield::get_motor(unsigned int motor_id)
 {
-    StepperMotor *stepper = NULL;
-
     if (motor_id > 2)
         return &motors[2];
 
@@ -77,7 +75,7 @@ StepperMotor* CNCShield::get_motor(unsigned int motor_id)
 }
 
 StepperMotor::StepperMotor(int _stp_pin, int _dir_pin):
-    stp_pin(stp_pin), dir_pin(_dir_pin) {}
+    stp_pin(_stp_pin), dir_pin(_dir_pin) {}
 
 void StepperMotor::init()
 {
@@ -160,6 +158,8 @@ bool StepperMotor::step(int no_of_steps)
         _step();
         delay(delay_between_steps);
     }
+
+    return true;
 }
 
 bool StepperMotor::step(int no_of_steps, direction_t _dir)
